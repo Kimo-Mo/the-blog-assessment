@@ -2,7 +2,6 @@
 import { getMockedPostById } from "@/app/lib/getMockedPosts";
 import { Metadata } from "next";
 import Image from "next/image";
-import { Post } from "@/app/types/post";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({
@@ -24,7 +23,7 @@ export async function generateMetadata({
 
 export default async function PostDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
-  const post: Post = await getMockedPostById(Number(id));
+  const post = await getMockedPostById(Number(id));
 
   if (!post) return notFound();
 
