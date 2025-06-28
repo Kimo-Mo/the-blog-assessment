@@ -1,6 +1,3 @@
-type PageProps = {
-  params: { id: string };
-};
 
 import { getMockedPostById } from "@/app/lib/getMockedPosts";
 import { Metadata } from "next";
@@ -8,7 +5,11 @@ import Image from "next/image";
 import { Post } from "@/app/types/post";
 import { notFound } from "next/navigation";
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
   const { id } = params;
   const post = await getMockedPostById(Number(id));
   if (!post) {
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function PostDetailPage({ params }: PageProps) {
+export default async function PostDetailPage({ params }: { params: { id: string } }) {
   const { id } = params;
   const post: Post = await getMockedPostById(Number(id));
 
