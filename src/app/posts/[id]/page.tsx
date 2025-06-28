@@ -4,10 +4,13 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+interface PostPageParams {
+  id: string;
+}
 export async function generateMetadata({
   params,
 }: {
-  params: { id: string };
+  params: PostPageParams;
 }): Promise<Metadata> {
   const { id } = params;
   const post = await getMockedPostById(Number(id));
@@ -21,7 +24,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function PostDetailPage({ params }: { params: { id: string } }) {
+export default async function PostDetailPage({ params }: { params: PostPageParams }) {
   const { id } = params;
   const post = await getMockedPostById(Number(id));
 
