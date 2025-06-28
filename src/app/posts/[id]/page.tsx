@@ -7,13 +7,14 @@ import { notFound } from "next/navigation";
 interface PostPageParams {
   id: string;
 }
+type PageProps = {
+  params: Promise<PostPageParams>;
+};
 export async function generateMetadata({
   params,
-}: {
-  params: PostPageParams;
-}): Promise<Metadata> {
-  const { id } = params;
-  const post = await getMockedPostById(Number(id));
+} : PageProps): Promise<Metadata> {
+  const postId = await params;
+  const post = await getMockedPostById(Number(postId.id));
   if (!post) {
     return { title: "Post Not Found" };
   }
@@ -24,9 +25,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function PostDetailPage({ params }: { params: PostPageParams }) {
-  const { id } = params;
-  const post = await getMockedPostById(Number(id));
+export default async function PostDetailPage({ params }: PageProps) {
+  const postId = await params;
+  const post = await getMockedPostById(Number(postId.id));
 
   if (!post) return notFound();
 
