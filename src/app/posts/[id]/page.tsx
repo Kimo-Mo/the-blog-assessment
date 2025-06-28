@@ -7,7 +7,7 @@ import { Post } from "@/app/types/post";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
+  const { id } = params;
   const post = await getMockedPostById(Number(id));
   if (!post) {
     return { title: "Post Not Found" };
@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function PostDetailPage({ params }: Props) {
-  const { id } = await params;
+  const { id } = params;
   const post: Post = await getMockedPostById(Number(id));
 
   if (!post) return notFound();
