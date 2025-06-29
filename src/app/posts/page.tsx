@@ -1,4 +1,10 @@
-import AllBlogPosts from "../components/AllBlogPosts";
+import AllBlogPosts from "@/components/AllBlogPosts";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "All Posts",
+  description: "A collection of all blog posts.",
+};
 
 const AllPosts = async ({
   searchParams,

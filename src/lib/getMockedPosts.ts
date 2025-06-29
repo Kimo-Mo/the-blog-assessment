@@ -1,4 +1,4 @@
-import { Post } from "../types/post";
+import { Post } from "@/types/post";
 
 const categories = ["UI/UX", "Product", "Engineering", "Design", "Leadership"];
 const authors = ["Sarah", "Ali", "Kareem", "Mona"];

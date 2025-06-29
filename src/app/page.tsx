@@ -1,6 +1,6 @@
-import Hero from "@/app/components/Hero";
-import RecentPosts from "@/app/components/RecentPosts";
-import AllBlogPosts from "@/app/components/AllBlogPosts";
+import Hero from "@/components/Hero";
+import RecentPosts from "@/components/RecentPosts";
+import AllBlogPosts from "@/components/AllBlogPosts";
 import Link from "next/link";
 
 export default async function Home({

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import ThemeBtn from "@/app/components/NavBar/ThemeBtn";
+import ThemeBtn from "./ThemeBtn";
 
 const MobileMenu = ({
   toggleMenu,

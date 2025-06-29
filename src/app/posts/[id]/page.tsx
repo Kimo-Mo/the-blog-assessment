@@ -1,5 +1,5 @@
 
-import { getMockedPostById } from "@/app/lib/getMockedPosts";
+import { getMockedPostById } from "@/lib/getMockedPosts";
 import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";

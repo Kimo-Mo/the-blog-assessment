@@ -1,7 +1,7 @@
-import PaginationControls from "@/app/components/PaginationControls";
-import PostCard from "@/app/components/PostCard";
-import { getMockedPosts } from "@/app/lib/getMockedPosts";
-import { Post } from "@/app/types/post";
+import PaginationControls from "./PaginationControls";
+import PostCard from "./PostCard";
+import { getMockedPosts } from "@/lib/getMockedPosts";
+import { Post } from "@/types/post";
 
 type AllBlogPostsProps = {
   currentPage?: number;

@@ -1,8 +1,8 @@
 
-import PostCard from "@/app/components/PostCard";
-import Loading from "@/app/components/Loading";
+import PostCard from "./PostCard";
+import Loading from "./Loading";
 import { Suspense } from "react";
-import { getMockedPosts } from "../lib/getMockedPosts";
+import { getMockedPosts } from "@/lib/getMockedPosts";
 
 const RecentPosts = async() => {
   const posts = await getMockedPosts(1);

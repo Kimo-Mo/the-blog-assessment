@@ -1,5 +1,5 @@
 
-import Loader from "@/app/components/Loading";
+import Loader from "@/components/Loading";
 const Loading = () => {
   return <Loader />;
 };

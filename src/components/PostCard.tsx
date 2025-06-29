@@ -1,5 +1,5 @@
 "use client";
-import { Post } from "@/app/types/post";
+import { Post } from "@/types/post";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";

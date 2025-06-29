@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import MenuBar from "@/app/components/NavBar/MenuBar";
-import ThemeBtn from "@/app/components/NavBar/ThemeBtn";
+import MenuBar from "./MenuBar";
+import ThemeBtn from "./ThemeBtn";
 import Link from "next/link";
-import MobileMenu from "@/app/components/NavBar/MobileMenu";
+import MobileMenu from "./MobileMenu";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
