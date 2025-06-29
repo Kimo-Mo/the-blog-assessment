@@ -1,34 +1,39 @@
+"use client";
+import { useRouter, useSearchParams } from "next/navigation";
+
 type PaginationControlsProps = {
   currentPage: number;
   totalPages: number;
-  setCurrentPage: (page: number) => void;
 };
 
 const PaginationControls = ({
   currentPage,
   totalPages,
-  setCurrentPage,
 }: PaginationControlsProps) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const goToPage = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", page.toString());
+    router.push(`?${params.toString()}`);
+  };
+
   const hasPrevPage = currentPage > 1;
   const hasNextPage = currentPage < totalPages;
-
-  const handleNavigation = (direction: "prev" | "next") => {
-    const newPage = direction === "prev" ? currentPage - 1 : currentPage + 1;
-    setCurrentPage(newPage);
-  };
 
   return (
     <div className="flex justify-between flex-col sm:flex-row items-center gap-4 my-10">
       <button
-        className="bg-[var(--foreground)] text-[var(--background)] py-2 px-4 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed"
+        className="text-[#667085] dark:text-white py-2 px-4 rounded-md disabled:cursor-not-allowed cursor-pointer"
         disabled={!hasPrevPage}
-        onClick={() => handleNavigation("prev")}>
+        onClick={() => goToPage(currentPage - 1)}>
         Previous
       </button>
 
       {(() => {
         const pageButtons = [];
-        const maxButtons = 5; // Adjust for responsiveness if needed
+        const maxButtons = 5;
         let startPage = Math.max(1, currentPage - 1);
         let endPage = Math.min(totalPages, currentPage + 1);
 
@@ -37,90 +42,89 @@ const PaginationControls = ({
           endPage = totalPages;
         } else {
           if (currentPage <= 3) {
-        startPage = 1;
-        endPage = maxButtons - 1;
+            startPage = 1;
+            endPage = maxButtons - 1;
           } else if (currentPage >= totalPages - 2) {
-        startPage = totalPages - (maxButtons - 2);
-        endPage = totalPages;
+            startPage = totalPages - (maxButtons - 2);
+            endPage = totalPages;
           }
         }
 
-        // First page
+        // Always show first page
         pageButtons.push(
           <button
-        key={1}
-        className={`py-2 px-4 rounded-md ${
-          currentPage === 1
-            ? "bg-blue-600 text-white"
-            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-        }`}
-        onClick={() => setCurrentPage(1)}>
-        1
+            key={1}
+            className={`py-2 px-4 rounded-md cursor-pointer ${
+              currentPage === 1
+                ? "bg-[#F9F5FF] text-[#7F56D9] dark:text-[var(--background)]"
+                : "text-[#667085] dark:text-white"
+            }`}
+            onClick={() => goToPage(1)}
+            disabled={currentPage === 1}>
+            1
           </button>
         );
 
         // Dots before
         if (startPage > 2) {
           pageButtons.push(
-        <span key="start-ellipsis" className="px-2 select-none">
-          ...
-        </span>
+            <span key="start-ellipsis" className="px-2 select-none">
+              ...
+            </span>
           );
         }
 
         // Middle pages
         for (let i = startPage; i <= endPage; i++) {
-          if (i !== 1 && i !== totalPages) {
-        pageButtons.push(
-          <button
-            key={i}
-            className={`py-2 px-4 rounded-md ${
-          currentPage === i
-            ? "bg-blue-600 text-white"
-            : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-            }`}
-            onClick={() => setCurrentPage(i)}>
-            {i}
-          </button>
-        );
-          }
+          if (i === 1 || i === totalPages) continue;
+          pageButtons.push(
+            <button
+              key={i}
+              className={`py-2 px-4 rounded-md cursor-pointer ${
+                currentPage === i
+                  ? "bg-[#F9F5FF] text-[#7F56D9] dark:text-[var(--background)]"
+                  : "text-[#667085] dark:text-white"
+              }`}
+              onClick={() => goToPage(i)}
+              disabled={currentPage === i}>
+              {i}
+            </button>
+          );
         }
 
         // Dots after
         if (endPage < totalPages - 1) {
           pageButtons.push(
-        <span key="end-ellipsis" className="px-2 select-none">
-          ...
-        </span>
+            <span key="end-ellipsis" className="px-2 select-none">
+              ...
+            </span>
           );
         }
 
-        // Last page
+        // Always show last page if more than one page
         if (totalPages > 1) {
           pageButtons.push(
-        <button
-          key={totalPages}
-          className={`py-2 px-4 rounded-md ${
-            currentPage === totalPages
-          ? "bg-blue-600 text-white"
-          : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-          }`}
-          onClick={() => setCurrentPage(totalPages)}>
-          {totalPages}
-        </button>
+            <button
+              key={totalPages}
+              className={`py-2 px-4 rounded-md cursor-pointer ${
+                currentPage === totalPages
+                  ? "bg-[#F9F5FF] text-[#7F56D9] dark:text-[var(--background)]"
+                  : "text-[#667085] dark:text-white"
+              }`}
+              onClick={() => goToPage(totalPages)}
+              disabled={currentPage === totalPages}>
+              {totalPages}
+            </button>
           );
         }
 
-        return (
-          <div className="flex flex-wrap gap-2">{pageButtons}</div>
-        );
+        return <div className="flex flex-wrap gap-2">{pageButtons}</div>;
       })()}
 
-
       <button
-        className="bg-[var(--foreground)] text-[var(--background)] py-2 px-4 rounded-md disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer"
+        className="text-[#667085] dark:text-white py-2 px-4 rounded-md disabled:cursor-not-allowed cursor-pointer"
         disabled={!hasNextPage}
-        onClick={() => handleNavigation("next")}>
+        onClick={() => goToPage(currentPage + 1)}>
         Next
       </button>
     </div>

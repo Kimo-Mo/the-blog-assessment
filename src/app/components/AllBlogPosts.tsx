@@ -1,43 +1,32 @@
-"use client";
-
 import PaginationControls from "@/app/components/PaginationControls";
 import PostCard from "@/app/components/PostCard";
-import Loading from "@/app/components/Loading";
-import { Suspense } from "react";
 import { getMockedPosts } from "@/app/lib/getMockedPosts";
-import { useState, useEffect } from "react";
 import { Post } from "@/app/types/post";
 
-const AllBlogPosts = () => {
-  const [posts, setPosts] = useState<Post[]>();
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  useEffect(() => {
-    const fetchData = async () => {
-      const posts = await getMockedPosts(currentPage);
-      setPosts(posts);
-    };
-    fetchData();
-  }, [currentPage]);
-  return posts ? (
-    <section>
-      <h2 className="text-xl font-semibold my-8">All Blog Posts</h2>
-      <Suspense fallback={<Loading />}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
-
-        <PaginationControls
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalPages={Math.ceil(100 / 6)}
-        />
-      </Suspense>
-    </section>
-  ) : (
-    <Loading />
-  );
+type AllBlogPostsProps = {
+  currentPage?: number;
 };
 
-export default AllBlogPosts;
+const POSTS_PER_PAGE = 6;
+const TOTAL_POSTS = 100;
+
+export default async function AllBlogPosts({
+  currentPage = 1,
+}: AllBlogPostsProps) {
+  const posts: Post[] = await getMockedPosts(currentPage);
+
+  return (
+    <section>
+      <h2 className="text-xl font-semibold my-8">All Blog Posts</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {posts.map((post) => (
+          <PostCard key={post.id} post={post} />
+        ))}
+      </div>
+      <PaginationControls
+        currentPage={currentPage}
+        totalPages={Math.ceil(TOTAL_POSTS / POSTS_PER_PAGE)}
+      />
+    </section>
+  );
+}
